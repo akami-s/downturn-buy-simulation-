@@ -2,9 +2,12 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
+from matplotlib import font_manager
 
-# 日本語フォントの設定
-matplotlib.rcParams['font.family'] = 'Noto Sans CJK JP'
+# 日本語フォントの設定（アップロードしたフォントファイルを使う）
+font_path = "fonts/HiraginoSansW3.ttc"
+font_prop = font_manager.FontProperties(fname=font_path)
+matplotlib.rcParams['font.family'] = font_prop.get_name()
 
 # タイトル
 st.markdown("<h1 style='white-space: nowrap;'>📉 下落局面の買付シミュレーション</h1>", unsafe_allow_html=True)
