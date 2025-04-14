@@ -1,5 +1,6 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+import matplotlib
 import pandas as pd
 
 # 日本語フォントの設定
