@@ -4,7 +4,7 @@ import matplotlib
 import pandas as pd
 
 # 日本語フォントの設定
-matplotlib.rcParams['font.family'] = 'IPAexGothic'
+matplotlib.rcParams['font.family'] = 'TakaoPGothic'
 
 # タイトル
 st.markdown("<h1 style='white-space: nowrap;'>📉 下落局面の買付シミュレーション</h1>", unsafe_allow_html=True)
