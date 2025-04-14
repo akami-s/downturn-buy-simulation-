@@ -1,12 +1,12 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.font_manager as fm
 import pandas as pd
-from matplotlib import font_manager
 
-# 日本語フォントの設定（アップロードしたフォントファイルを使う）
-font_path = "fonts/HiraginoSansW3.ttc"
-font_prop = font_manager.FontProperties(fname=font_path)
+# 日本語フォントの設定（ローカルファイル）
+font_path = "fonts/ipag.ttf"
+font_prop = fm.FontProperties(fname=font_path)
 matplotlib.rcParams['font.family'] = font_prop.get_name()
 
 # タイトル
