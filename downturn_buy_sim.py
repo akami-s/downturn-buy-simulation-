@@ -3,7 +3,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # タイトル
-st.markdown("<h1 style='white-space: nowrap;'>📉 下落展開での買付シミュレーション</h1>", unsafe_allow_html=True)
+st.markdown("""
+<h1 style='font-size: 1.8em; line-height: 1.3; text-align: center;'>
+📉<br>下落局面の<br>買付シミュレーション
+</h1>
+""", unsafe_allow_html=True)
+
 
 # 入力フォーム
 initial_price = st.number_input("初期株価（円）", value=100)
