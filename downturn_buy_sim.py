@@ -9,7 +9,6 @@ st.markdown("""
 </h1>
 """, unsafe_allow_html=True)
 
-
 # 入力フォーム
 initial_price = st.number_input("初期株価（円）", value=100)
 recovery_price = st.number_input("回復時の株価（円）", value=100)
@@ -57,17 +56,17 @@ if st.button("シミュレーション開始"):
 
     buy_count = int(max_drop / drop_step) + 1
 
-    for i in range(0, int(max_drop + drop_step), int(drop_step)):
-        drop_rate = i / 100
+    for step in range(buy_count):
+        drop_percent = step * drop_step
+        drop_rate = drop_percent / 100
         price = initial_price * (1 - drop_rate)
 
         if buy_type == "固定額（毎回同じ金額）":
             amount = buy_amount
         else:
-            step = i // drop_step
             amount = buy_amount * (1 + 0.2 * step)
-            step_labels.append(f"{step + 1} Step")
-            drop_rates_list.append(f"-{i}%")
+            step_labels.append(f"{step + 1}回目")
+            drop_rates_list.append(f"-{drop_percent}%")
             amount_list.append(int(amount))
 
         units = amount / price
@@ -79,14 +78,23 @@ if st.button("シミュレーション開始"):
         buy_units.append(units)
         accumulated_units.append(total_units)
 
+    # 表の表示（固定額でも出す）
     if buy_type == "下落に応じて増額":
-        st.subheader("📋 Buy Amount per Step (Increase Rule)")
+        st.subheader("📋 下落ごとの買付額（増額ルール）")
         df = pd.DataFrame({
-            "Step": step_labels,
-            "Drop Rate": drop_rates_list,
-            "Buy Amount (JPY)": amount_list
+            "ステップ": step_labels,
+            "下落率": drop_rates_list,
+            "買付額（円）": [f"{amt:,}" for amt in amount_list]
         })
-        st.dataframe(df, use_container_width=True)
+        st.table(df)
+    else:
+        st.subheader("📋 下落ごとの買付額（固定額ルール）")
+        df = pd.DataFrame({
+            "ステップ": [f"{i+1}回目" for i in range(buy_count)],
+            "下落率": [f"-{i*drop_step}%" for i in range(buy_count)],
+            "買付額（円）": [f"{int(buy_amount):,}" for _ in range(buy_count)]
+        })
+        st.table(df)
 
     # 回復時の評価
     final_value = total_units * recovery_price
