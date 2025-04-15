@@ -114,17 +114,29 @@ if st.button("シミュレーション開始"):
     st.write(f"**回復時の評価額**: {int(final_value):,} 円")
     st.write(f"**リターン**: {profit_rate:.2f} %")
 
-    st.subheader("📊 一括投資との比較")
-    st.write(f"**一括投資時の平均取得単価**: {initial_price} 円")
-    st.write(f"**同じ金額を一括投資した場合の評価額**: {int(lump_final_value):,} 円")
-    st.write(f"**リターン（%）**: {lump_profit_rate:.2f} %")
+    # 表形式の比較
+    st.subheader("📋 一括投資との比較（表形式）")
+    comparison_data = {
+        "項目": ["総投資額", "総取得株数", "平均取得単価", "回復時の評価額", "リターン（%）"],
+        "段階投資": [
+            f"{int(total_cost):,} 円",
+            f"{total_units:.2f} 株",
+            f"{total_cost / total_units:.2f} 円",
+            f"{int(final_value):,} 円",
+            f"{profit_rate:.2f} %"
+        ],
+        "一括投資": [
+            f"{int(total_cost):,} 円",
+            f"{lump_units:.2f} 株",
+            f"{initial_price:.2f} 円",
+            f"{int(lump_final_value):,} 円",
+            f"{lump_profit_rate:.2f} %"
+        ]
+    }
+    df_comparison = pd.DataFrame(comparison_data)
+    st.table(df_comparison)
 
-    fig, ax = plt.subplots()
-    ax.bar(['Step Buy', 'Lump Sum'], [profit_rate, lump_profit_rate], color=['skyblue', 'orange'])
-    ax.set_ylabel("Return (%)")
-    ax.set_title("Step Buy vs Lump Sum: Return Comparison")
-    st.pyplot(fig)
-
+    # 累積株数 vs 株価グラフ（維持）
     fig2, ax2 = plt.subplots()
     ax2.plot(prices, accumulated_units, marker='o')
     ax2.set_title('Price Decline vs Accumulated Shares')
