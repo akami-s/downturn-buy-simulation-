@@ -15,4 +15,4 @@
 - pandas
 - numpy
 - matplotlib
-- japanize_matplotlib
+
